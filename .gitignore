@@ -1,0 +1,26 @@
+# Maven build outputs
+**/target/
+*.class
+
+# Node and Vite outputs
+**/node_modules/
+**/dist/
+
+# IDE configurations
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Local configuration overrides
+*.properties.local
+*.env
+*.env.local
+
+# OS files
+Thumbs.db
+Desktop.ini
