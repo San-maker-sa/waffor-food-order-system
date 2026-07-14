@@ -95,6 +95,8 @@ const NEARBY_RESTAURANTS = [
   }
 ];
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081';
+
 export default function App() {
   // Auth state
   const [user, setUser] = useState(() => {
@@ -264,7 +266,7 @@ export default function App() {
 
   // Poll backend for orders
   const fetchOrders = () => {
-    fetch('http://localhost:8081/api/orders')
+    fetch(`${API_BASE_URL}/api/orders`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch orders');
         return res.json();
@@ -327,7 +329,7 @@ export default function App() {
     }
 
     setLoading(true);
-    fetch('http://localhost:8081/api/users/login', {
+    fetch(`${API_BASE_URL}/api/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: authEmail, password: authPassword })
@@ -370,7 +372,7 @@ export default function App() {
     }
 
     setLoading(true);
-    fetch('http://localhost:8081/api/users/register', {
+    fetch(`${API_BASE_URL}/api/users/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: authName, email: authEmail, password: authPassword, role: authRole })
@@ -450,7 +452,7 @@ export default function App() {
       }))
     };
 
-    fetch('http://localhost:8081/api/orders', {
+    fetch(`${API_BASE_URL}/api/orders`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -492,7 +494,7 @@ export default function App() {
     if (paymentMethod === 'cod') {
       setLoading(true);
       const orderId = activePaymentOrder.orderId;
-      fetch(`http://localhost:8081/api/orders/${orderId}/cod`, {
+      fetch(`${API_BASE_URL}/api/orders/${orderId}/cod`, {
         method: 'POST'
       })
         .then((res) => {
@@ -570,7 +572,7 @@ export default function App() {
     const amount = activePaymentOrder.amount;
     const method = paymentMethod.toUpperCase();
 
-    fetch(`http://localhost:8081/api/orders/${orderId}/pay?paymentMethod=${method}`, {
+    fetch(`${API_BASE_URL}/api/orders/${orderId}/pay?paymentMethod=${method}`, {
       method: 'POST'
     })
       .then((res) => {
@@ -614,7 +616,7 @@ export default function App() {
   // Delivery Partner: Confirm COD Cash Collection
   const handleConfirmCodPayment = (orderId) => {
     setLoading(true);
-    fetch(`http://localhost:8081/api/orders/${orderId}/confirm-cod-payment`, {
+    fetch(`${API_BASE_URL}/api/orders/${orderId}/confirm-cod-payment`, {
       method: 'POST'
     })
       .then((res) => {
@@ -636,7 +638,7 @@ export default function App() {
   const handleCancelOrder = (orderId) => {
     setLoading(true);
     setCancelConfirmOrder(null);
-    fetch(`http://localhost:8081/api/orders/${orderId}/cancel`, {
+    fetch(`${API_BASE_URL}/api/orders/${orderId}/cancel`, {
       method: 'POST'
     })
       .then((res) => {
@@ -684,7 +686,7 @@ export default function App() {
   // Shopkeeper: Accept Order
   const handleAcceptOrder = (orderId) => {
     setLoading(true);
-    fetch(`http://localhost:8081/api/orders/${orderId}/accept`, {
+    fetch(`${API_BASE_URL}/api/orders/${orderId}/accept`, {
       method: 'POST'
     })
       .then((res) => {
@@ -705,7 +707,7 @@ export default function App() {
   // Shopkeeper: Update Kitchen Status
   const handleUpdateStatus = (orderId, targetStatus) => {
     setLoading(true);
-    fetch(`http://localhost:8081/api/orders/${orderId}/status?status=${targetStatus}`, {
+    fetch(`${API_BASE_URL}/api/orders/${orderId}/status?status=${targetStatus}`, {
       method: 'POST'
     })
       .then((res) => {
@@ -726,7 +728,7 @@ export default function App() {
   // Delivery Partner: Mark Delivered
   const handleMarkDelivered = (orderId) => {
     setLoading(true);
-    fetch(`http://localhost:8081/api/orders/${orderId}/deliver`, {
+    fetch(`${API_BASE_URL}/api/orders/${orderId}/deliver`, {
       method: 'POST'
     })
       .then((res) => {
