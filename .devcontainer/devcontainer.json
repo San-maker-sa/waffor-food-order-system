@@ -1,0 +1,35 @@
+{
+  "name": "FoodHub Saga System",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "portsAttributes": {
+    "5173": {
+      "label": "Frontend React App",
+      "onAutoForward": "openBrowser",
+      "visibility": "public"
+    },
+    "8081": {
+      "label": "Order Service Backend",
+      "visibility": "public"
+    },
+    "8082": {
+      "label": "Payment Service",
+      "visibility": "private"
+    },
+    "8083": {
+      "label": "Kitchen Service",
+      "visibility": "private"
+    },
+    "8084": {
+      "label": "Delivery Service",
+      "visibility": "private"
+    }
+  },
+  "postCreateCommand": "cd frontend && npm install && cd ../food-order-system/order-service && mvn compile && cd ../payment-service && mvn compile && cd ../kitchen-service && mvn compile && cd ../delivery-service && mvn compile",
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "README.md"
+      ]
+    }
+  }
+}

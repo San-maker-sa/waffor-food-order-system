@@ -1,6 +1,6 @@
 # 🍔 FoodHub: Premium Order-to-Delivery System (Saga Orchestration)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/San-maker-sa/waffor-food-order-system)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?repo=San-maker-sa/waffor-food-order-system)
 
 FoodHub is a state-of-the-art, asynchronous food ordering and delivery web application built with **Spring Boot Microservices**, **Camunda BPMN Saga Orchestration**, **ActiveMQ**, and a beautiful **Glassmorphic React Frontend**.
 
@@ -54,11 +54,16 @@ The frontend is a dark-themed, glassmorphic single-page application built on **V
 
 ## 🚀 How to Run the Project
 
-### Option A: One-Click Cloud Launch (Recommended)
-You can run the entire system in a ready-to-use cloud container workspace in one click:
-1. Click the button: [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/San-maker-sa/waffor-food-order-system)
-2. Log in using your GitHub account.
-3. The system will automatically spin up all services, compile the Java backend, install frontend packages, and launch the web app directly in your browser.
+### Option A: One-Click Cloud Launch (Free, No Card Required)
+You can run the entire system in a ready-to-use cloud container workspace on GitHub Codespaces (120 hours free per month, no credit card required):
+1. Click the button: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?repo=San-maker-sa/waffor-food-order-system)
+2. Select your repository settings and click **Create new codespace**.
+3. Codespaces will build your environment and download packages automatically.
+4. Once completed, open a new terminal in the Codespace and start all services by running:
+   ```bash
+   ./run-all.sh
+   ```
+5. When the frontend service starts, click **Open in Browser** in the pop-up notification to open the live application!
 
 ---
 
