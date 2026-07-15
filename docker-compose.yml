@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  order-service:
+    build:
+      context: ./food-order-system/order-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+      - "61616:61616"
+    networks:
+      - food-network
+
+  payment-service:
+    build:
+      context: ./food-order-system/payment-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_ACTIVEMQ_BROKER_URL=tcp://order-service:61616
+    depends_on:
+      - order-service
+    networks:
+      - food-network
+
+  kitchen-service:
+    build:
+      context: ./food-order-system/kitchen-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_ACTIVEMQ_BROKER_URL=tcp://order-service:61616
+    depends_on:
+      - order-service
+    networks:
+      - food-network
+
+  delivery-service:
+    build:
+      context: ./food-order-system/delivery-service
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_ACTIVEMQ_BROKER_URL=tcp://order-service:61616
+    depends_on:
+      - order-service
+    networks:
+      - food-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - order-service
+    networks:
+      - food-network
+
+networks:
+  food-network:
+    driver: bridge

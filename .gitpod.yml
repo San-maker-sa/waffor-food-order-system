@@ -1,0 +1,29 @@
+ports:
+  - port: 5173
+    onOpen: open-browser
+    visibility: public
+  - port: 8081
+    visibility: public
+  - port: 8082
+    visibility: private
+  - port: 8083
+    visibility: private
+  - port: 8084
+    visibility: private
+
+tasks:
+  - name: Order Service
+    init: cd food-order-system/order-service && mvn dependency:go-offline
+    command: cd food-order-system/order-service && mvn spring-boot:run
+  - name: Payment Service
+    init: cd food-order-system/payment-service && mvn dependency:go-offline
+    command: cd food-order-system/payment-service && mvn spring-boot:run
+  - name: Kitchen Service
+    init: cd food-order-system/kitchen-service && mvn dependency:go-offline
+    command: cd food-order-system/kitchen-service && mvn spring-boot:run
+  - name: Delivery Service
+    init: cd food-order-system/delivery-service && mvn dependency:go-offline
+    command: cd food-order-system/delivery-service && mvn spring-boot:run
+  - name: Frontend
+    init: cd frontend && npm install
+    command: cd frontend && npm run dev -- --host 0.0.0.0

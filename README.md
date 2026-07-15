@@ -1,5 +1,7 @@
 # 🍔 FoodHub: Premium Order-to-Delivery System (Saga Orchestration)
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/San-maker-sa/waffor-food-order-system)
+
 FoodHub is a state-of-the-art, asynchronous food ordering and delivery web application built with **Spring Boot Microservices**, **Camunda BPMN Saga Orchestration**, **ActiveMQ**, and a beautiful **Glassmorphic React Frontend**.
 
 The system utilizes the **Saga Pattern** to manage distributed transactions across four microservices with automatic compensations (refunds, ticket rollbacks) in case of system failures.
@@ -50,21 +52,48 @@ The frontend is a dark-themed, glassmorphic single-page application built on **V
 
 ---
 
-## ⚙️ How to Run Locally
+## 🚀 How to Run the Project
 
-### Prerequisites
-- Java 17 or higher
+### Option A: One-Click Cloud Launch (Recommended)
+You can run the entire system in a ready-to-use cloud container workspace in one click:
+1. Click the button: [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/San-maker-sa/waffor-food-order-system)
+2. Log in using your GitHub account.
+3. The system will automatically spin up all services, compile the Java backend, install frontend packages, and launch the web app directly in your browser.
+
+---
+
+### Option B: Run via Docker Compose (No Java/Node installation needed)
+To run the application locally without manually installing dependencies (Java, Maven, Node, etc.), use Docker Compose:
+1. Ensure you have Docker Desktop running.
+2. Run the following command in the root folder:
+   ```bash
+   docker-compose up --build
+   ```
+3. Once fully booted, open your browser and navigate to **`http://localhost:5173/`**.
+
+---
+
+### Option C: Run Services Manually (Traditional Local Setup)
+
+#### Prerequisites
+- Java 21 or higher
 - Maven 3.8+
 - Node.js (v18+)
 
-### 1. Start all Backend Microservices
-Run the batch file in the root directory to build and boot all 4 services and the ActiveMQ broker:
-```bash
-.\run-all.bat
-```
+#### 1. Start all Backend Microservices
+Run the startup script based on your operating system:
+* **Windows:**
+  ```powershell
+  .\run-all.bat
+  ```
+* **Linux / macOS:**
+  ```bash
+  chmod +x run-all.sh
+  ./run-all.sh
+  ```
 
-### 2. Start the Frontend Server
-Navigate to the frontend directory, install dependencies, and run the Vite dev server:
+#### 2. Start the Frontend Server manually (if not running script)
+Navigate to the frontend directory, install dependencies, and start Vite:
 ```bash
 cd frontend
 npm install

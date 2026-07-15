@@ -95,7 +95,22 @@ const NEARBY_RESTAURANTS = [
   }
 ];
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081';
+const getApiBaseUrl = () => {
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  const hostname = window.location.hostname;
+  const protocol = window.location.protocol;
+  if (hostname.endsWith('.gitpod.io')) {
+    return `${protocol}//${hostname.replace('5173-', '8081-')}`;
+  }
+  if (hostname.endsWith('.github.dev') || hostname.endsWith('.app.github.dev')) {
+    return `${protocol}//${hostname.replace('-5173', '-8081')}`;
+  }
+  return 'http://localhost:8081';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 export default function App() {
   // Auth state
