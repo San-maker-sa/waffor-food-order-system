@@ -18,7 +18,7 @@ services:
     dockerContext: food-order-system/payment-service
     plan: free
     envVars:
-      - key: SPRING_ACTIVEMQ_BROKER_URL
+      - key: ACTIVEMQ_URL
         value: "tcp://order-service:61616"
       - key: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Xss256k"
@@ -32,7 +32,7 @@ services:
     dockerContext: food-order-system/kitchen-service
     plan: free
     envVars:
-      - key: SPRING_ACTIVEMQ_BROKER_URL
+      - key: ACTIVEMQ_URL
         value: "tcp://order-service:61616"
       - key: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Xss256k"
@@ -46,7 +46,7 @@ services:
     dockerContext: food-order-system/delivery-service
     plan: free
     envVars:
-      - key: SPRING_ACTIVEMQ_BROKER_URL
+      - key: ACTIVEMQ_URL
         value: "tcp://order-service:61616"
       - key: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Xss256k"
