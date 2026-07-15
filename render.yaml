@@ -49,8 +49,8 @@ services:
       - key: PORT
         value: "8084"
 
-  - type: static
-    name: waffor-frontend
+staticSites:
+  - name: waffor-frontend
     rootDir: frontend
     buildCommand: npm install && npm run build
     publishPath: dist
