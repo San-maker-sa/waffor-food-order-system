@@ -317,7 +317,7 @@ export default function App() {
     showNotification('Logged out successfully', 'success');
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!authEmail || !authPassword) {
       showNotification('Please fill in all fields', 'error');
@@ -329,30 +329,43 @@ export default function App() {
     }
 
     setLoading(true);
-    fetch(`${API_BASE_URL}/api/users/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: authEmail, password: authPassword })
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error('Invalid credentials');
-        return res.json();
-      })
-      .then((data) => {
-        localStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
-        setAuthEmail('');
-        setAuthPassword('');
-        showNotification(`Welcome back, ${data.name}!`, 'success');
-      })
-      .catch((err) => {
-        console.error(err);
-        showNotification('Login failed. Please check your email and password.', 'error');
-      })
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: authEmail, password: authPassword })
+      });
+
+      if (!res.ok) {
+        let errorMsg = 'Invalid email or password.';
+        try {
+          const data = await res.json();
+          if (data && data.message) errorMsg = data.message;
+        } catch (errJson) {
+          // ignore
+        }
+        throw new Error(errorMsg);
+      }
+
+      const data = await res.json();
+      localStorage.setItem('user', JSON.stringify(data));
+      setUser(data);
+      setAuthEmail('');
+      setAuthPassword('');
+      showNotification(`Welcome back, ${data.name}!`, 'success');
+    } catch (err) {
+      console.error(err);
+      if (err.message && err.message !== 'Failed to fetch') {
+        showNotification(err.message, 'error');
+      } else {
+        showNotification('Connection failed. Please check if your backend service is running and accessible.', 'error');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (!authName || !authEmail || !authPassword) {
       showNotification('Please fill in all fields', 'error');
@@ -372,28 +385,41 @@ export default function App() {
     }
 
     setLoading(true);
-    fetch(`${API_BASE_URL}/api/users/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: authName, email: authEmail, password: authPassword, role: authRole })
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error('Registration failed');
-        return res.json();
-      })
-      .then((data) => {
-        localStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
-        setAuthName('');
-        setAuthEmail('');
-        setAuthPassword('');
-        showNotification('Account created successfully!', 'success');
-      })
-      .catch((err) => {
-        console.error(err);
-        showNotification('Registration failed. Email might already be in use.', 'error');
-      })
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/users/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: authName, email: authEmail, password: authPassword, role: authRole })
+      });
+
+      if (!res.ok) {
+        let errorMsg = 'Registration failed. Email might already be in use.';
+        try {
+          const data = await res.json();
+          if (data && data.message) errorMsg = data.message;
+        } catch (errJson) {
+          // ignore
+        }
+        throw new Error(errorMsg);
+      }
+
+      const data = await res.json();
+      localStorage.setItem('user', JSON.stringify(data));
+      setUser(data);
+      setAuthName('');
+      setAuthEmail('');
+      setAuthPassword('');
+      showNotification('Account created successfully!', 'success');
+    } catch (err) {
+      console.error(err);
+      if (err.message && err.message !== 'Failed to fetch') {
+        showNotification(err.message, 'error');
+      } else {
+        showNotification('Connection failed. Please check if your backend service is running and accessible.', 'error');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Cart actions
@@ -789,7 +815,12 @@ export default function App() {
             <h2>Waffor Foods</h2>
           </div>
           <p className="subtitle">Secure Role-Based Entrance Gateway</p>
-          
+
+          <div className={`status-banner ${backendConnected ? 'connected' : 'disconnected'}`} style={{ margin: '0.5rem auto 1.5rem auto' }}>
+            <span className="pulse-dot"></span>
+            System: {backendConnected ? 'Connected' : 'Offline (Backend Unreachable)'}
+          </div>
+
           {notification && (
             <div className={`alert-box alert-${notification.type}`}>
               {notification.text}
