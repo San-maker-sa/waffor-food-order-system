@@ -3,6 +3,7 @@ services:
     name: order-service
     env: docker
     dockerfilePath: food-order-system/order-service/Dockerfile
+    dockerContext: food-order-system/order-service
     plan: free
     envVars:
       - key: JAVA_OPTS
@@ -14,6 +15,7 @@ services:
     name: payment-service
     env: docker
     dockerfilePath: food-order-system/payment-service/Dockerfile
+    dockerContext: food-order-system/payment-service
     plan: free
     envVars:
       - key: SPRING_ACTIVEMQ_BROKER_URL
@@ -27,6 +29,7 @@ services:
     name: kitchen-service
     env: docker
     dockerfilePath: food-order-system/kitchen-service/Dockerfile
+    dockerContext: food-order-system/kitchen-service
     plan: free
     envVars:
       - key: SPRING_ACTIVEMQ_BROKER_URL
@@ -40,6 +43,7 @@ services:
     name: delivery-service
     env: docker
     dockerfilePath: food-order-system/delivery-service/Dockerfile
+    dockerContext: food-order-system/delivery-service
     plan: free
     envVars:
       - key: SPRING_ACTIVEMQ_BROKER_URL
@@ -49,12 +53,11 @@ services:
       - key: PORT
         value: "8084"
 
-  - type: web
-    name: waffor-frontend
-    runtime: static
+staticSites:
+  - name: waffor-frontend
     rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    publishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
         fromService:
