@@ -5,7 +5,6 @@ services:
     dockerfilePath: food-order-system/order-service/Dockerfile
     dockerContext: food-order-system/order-service
     plan: free
-    dockerPort: 8081
     envVars:
       - key: JAVA_OPTS
         value: "-XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Xss256k"
@@ -18,7 +17,6 @@ services:
     dockerfilePath: food-order-system/payment-service/Dockerfile
     dockerContext: food-order-system/payment-service
     plan: free
-    dockerPort: 8082
     envVars:
       - key: SPRING_ACTIVEMQ_BROKER_URL
         value: "tcp://order-service:61616"
@@ -33,7 +31,6 @@ services:
     dockerfilePath: food-order-system/kitchen-service/Dockerfile
     dockerContext: food-order-system/kitchen-service
     plan: free
-    dockerPort: 8083
     envVars:
       - key: SPRING_ACTIVEMQ_BROKER_URL
         value: "tcp://order-service:61616"
@@ -48,7 +45,6 @@ services:
     dockerfilePath: food-order-system/delivery-service/Dockerfile
     dockerContext: food-order-system/delivery-service
     plan: free
-    dockerPort: 8084
     envVars:
       - key: SPRING_ACTIVEMQ_BROKER_URL
         value: "tcp://order-service:61616"
