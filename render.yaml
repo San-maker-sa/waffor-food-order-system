@@ -1,0 +1,62 @@
+services:
+  - type: web
+    name: order-service
+    env: docker
+    dockerfilePath: food-order-system/order-service/Dockerfile
+    plan: free
+    envVars:
+      - key: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Xss256k"
+      - key: PORT
+        value: "8081"
+
+  - type: web
+    name: payment-service
+    env: docker
+    dockerfilePath: food-order-system/payment-service/Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_ACTIVEMQ_BROKER_URL
+        value: "tcp://order-service:61616"
+      - key: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Xss256k"
+      - key: PORT
+        value: "8082"
+
+  - type: web
+    name: kitchen-service
+    env: docker
+    dockerfilePath: food-order-system/kitchen-service/Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_ACTIVEMQ_BROKER_URL
+        value: "tcp://order-service:61616"
+      - key: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Xss256k"
+      - key: PORT
+        value: "8083"
+
+  - type: web
+    name: delivery-service
+    env: docker
+    dockerfilePath: food-order-system/delivery-service/Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_ACTIVEMQ_BROKER_URL
+        value: "tcp://order-service:61616"
+      - key: JAVA_OPTS
+        value: "-XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC -Xss256k"
+      - key: PORT
+        value: "8084"
+
+  - type: static
+    name: waffor-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: order-service
+          property: host

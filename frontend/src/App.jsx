@@ -97,7 +97,11 @@ const NEARBY_RESTAURANTS = [
 
 const getApiBaseUrl = () => {
   if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+    let url = import.meta.env.VITE_API_BASE_URL;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
+    return url;
   }
   const hostname = window.location.hostname;
   const protocol = window.location.protocol;
